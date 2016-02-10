@@ -11,10 +11,9 @@ import java.net.Socket;
 public class ftpclient extends Thread {
 	Socket ftp;
 	Socket pasvftp;
-	
-	public ftpclient()
-	{
-		
+
+	public ftpclient() {
+
 	}
 
 	public ftpclient(Socket ftp) {
@@ -54,9 +53,12 @@ public class ftpclient extends Thread {
 			String command = new String();
 			BufferedReader read = new BufferedReader(new InputStreamReader(ftpIn));
 			while (true) {
-				command = read.readLine();
+				while (true) {
+					command = read.readLine();
+					System.out.println(command);
+					if (command != null) break;
+				}
 				String para = command.toLowerCase();
-				System.out.println(para);
 				switch (para) {
 				case "quit":
 					ftpOut.write("221 Goodbye!\r\n".getBytes());
@@ -69,10 +71,8 @@ public class ftpclient extends Thread {
 				case "pasv":
 					ftpOut.write("227 Entering Passive mode (192,168,1,107,117,13)".getBytes());
 					ftpOut.flush();
-					p pas=new ftpclient().new p();
-					
-					new Thread (pas).start();
-					
+					new Thread(this.new p()).start();
+
 					System.out.println("pasv mode starting...");
 					break;
 				case "list -l":
@@ -138,7 +138,6 @@ public class ftpclient extends Thread {
 			try {
 				ServerSocket pasv = new ServerSocket(29965);
 				System.out.println(ftp.toString());
-				while (true)
 					pasvftp = pasv.accept();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
